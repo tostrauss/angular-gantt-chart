@@ -1,0 +1,34 @@
+<form (ngSubmit)="onAddTask()">
+  <label>
+    Task Name:
+    <input [(ngModel)]="taskName" name="taskName" placeholder="Enter task name" required />
+  </label>
+  <label>
+    Start Date:
+    <input [(ngModel)]="startDate" name="startDate" type="date" required />
+  </label>
+  <label>
+    End Date:
+    <input [(ngModel)]="endDate" name="endDate" type="date" required />
+  </label>
+  <label>
+    Duration (Days):
+    <input [(ngModel)]="duration" name="duration" type="number" required />
+  </label>
+  <label>
+    Priorities:
+    <select [(ngModel)]="priority" name="priority" required>
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+  </label>
+  <label>
+    Percentage of Completion:
+    <input [(ngModel)]="completion" name="completion" type="number" min="0" max="100" required />
+  </label>
+  <button type="submit">Add Task</button>
+</form>
+
+  
+  
