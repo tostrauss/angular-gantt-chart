@@ -37,6 +37,14 @@
           }
         }
       }
+    },
+    {
+      "type": "npm",
+      "script": "install",
+      "label": "npm: install",
+      "presentation": {
+        "reveal": "silent"
+      }
     }
   ]
 }

@@ -1,4 +1,9 @@
+<div *ngIf="error" class="error-message">{{ error }}</div>
 <form (ngSubmit)="onAddTask()">
+  <label>
+    Dependencies:
+    <input [(ngModel)]="dependencies" name="dependencies" placeholder="Enter task dependencies (comma-separated)" />
+  </label>
   <label>
     Task Name:
     <input [(ngModel)]="taskName" name="taskName" placeholder="Enter task name" required />
@@ -10,10 +15,6 @@
   <label>
     End Date:
     <input [(ngModel)]="endDate" name="endDate" type="date" required />
-  </label>
-  <label>
-    Duration (Days):
-    <input [(ngModel)]="duration" name="duration" type="number" required />
   </label>
   <label>
     Priorities:

@@ -1,4 +1,9 @@
+<div *ngIf="data.length === 0" class="error-message">
+  No tasks to display. Please add a task.
+</div>
+
 <google-chart
+  *ngIf="data.length"
   [title]="title"
   [type]="type"
   [data]="data"

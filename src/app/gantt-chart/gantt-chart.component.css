@@ -1,8 +1,17 @@
-.google-chart {
-    width: 95%;
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    background: #f9f9f9;
-  }
+google-chart {
+  width: 95%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
