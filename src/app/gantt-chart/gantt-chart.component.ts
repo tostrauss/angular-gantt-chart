@@ -26,21 +26,21 @@ export class GanttChartComponent implements OnInit {
   options = {
     height: 500,
     gantt: {
-      trackHeight: 40,
-      barCornerRadius: 4,
+      trackHeight: 30,
+      barCornerRadius: 5,
       percentEnabled: true,
       criticalPathEnabled: false,
       palette: [
         {
-          color: '#4682B4',
-          dark: '#315f7c',
-          light: '#e5ecf6'
+        color: '#2a9d8f',
+        dark: '#1e7167',
+        light: '#d4f1ef'
         }
       ],
       labelStyle: {
-        fontName: 'Arial',
+        fontName: 'Roboto',
         fontSize: 14,
-        color: '#000'
+        color: '#333'
       },
       innerGridTrack: { fill: '#f8f9fa' },
       innerGridDarkTrack: { fill: '#ebedef' }
@@ -50,24 +50,24 @@ export class GanttChartComponent implements OnInit {
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.data = [
-      ['HardcodedID', 'Hardcoded Task', new Date(2024, 11, 27), new Date(2025, 0, 14), 18, 30, null]
-    ];
+    this.data = []; // Clearing of initial hardcoded task
     this.taskService.tasks$.subscribe(tasks => {
-      const rows = tasks.map(t => {
-        const s = new Date(t.startDate);
-        const e = new Date(t.endDate);
-        if (isNaN(s.getTime()) || isNaN(e.getTime())) return null;
-        const dur = t.duration || Math.ceil((e.getTime() - s.getTime()) / 86400000);
-        const deps = Array.isArray(t.dependencies) && t.dependencies.length
-          ? t.dependencies.join(',')
-          : null;
-        return [t.name, t.name, s, e, dur, t.completion || 0, deps];
-      }).filter(r => r);
-      this.data.push(...rows);
+      this.data = tasks.map(t => {
+        const startDate = new Date(t.startDate);
+        const endDate = new Date(t.endDate);
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+          console.error(`Invalid date for task: ${t.name}`);
+          return null;
+        }
+  
+        const duration = Math.ceil((endDate.getTime() - startDate.getTime()) / 86400000);
+        const dependencies = t.dependencies?.length ? t.dependencies.join(',') : null;
+  
+        return [t.name, t.name, startDate, endDate, duration, t.completion || 0, dependencies];
+      }).filter(row => row); // Remove invalid rows
     });
   }
-}
+}  
 
 
 

@@ -24,6 +24,8 @@ export class DataInputComponent {
 
   onAddTask(): void {
     this.error = '';
+  
+    // Parse and validate start and end dates
     const parsedStart = this.parseGermanOrISO(this.startDate.trim());
     const parsedEnd = this.parseGermanOrISO(this.endDate.trim());
     if (!parsedStart || !parsedEnd) {
@@ -34,23 +36,36 @@ export class DataInputComponent {
       this.error = 'End Date must be after Start Date.';
       return;
     }
+  
+    // Validate task name
     if (!this.taskName.trim()) {
       this.error = 'Task name cannot be empty.';
       return;
     }
-    const duration = Math.ceil((parsedEnd.getTime() - parsedStart.getTime()) / 86400000);
-    const deps = this.dependencies.trim() && this.dependencies.trim().toLowerCase() !== 'null'
-      ? this.dependencies.split(',').map(d => d.trim())
+  
+    // Process dependencies
+    const deps = this.dependencies.trim()
+      ? this.dependencies.split(',').map(d => d.trim()).filter(d => d.length > 0)
       : [];
+    for (const dep of deps) {
+      if (dep === this.taskName.trim()) {
+        this.error = `Task "${this.taskName.trim()}" cannot depend on itself.`;
+        return;
+      }
+    }
+  
+    // Prepare task object
     const task = {
       name: this.taskName.trim(),
       startDate: parsedStart.toISOString(),
       endDate: parsedEnd.toISOString(),
-      duration,
+      duration: Math.ceil((parsedEnd.getTime() - parsedStart.getTime()) / 86400000),
       priority: this.priority,
       completion: this.completion,
       dependencies: deps
     };
+  
+    // Add task to service
     try {
       this.taskService.addTask(task);
       alert(`Task "${task.name}" added successfully.`);
@@ -59,6 +74,7 @@ export class DataInputComponent {
       this.error = (err as Error).message;
     }
   }
+  
 
   private parseGermanOrISO(val: string): Date | null {
     const pattern = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;

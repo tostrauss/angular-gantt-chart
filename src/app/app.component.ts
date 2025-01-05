@@ -11,4 +11,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'GanttChartApp';
+
+  debugNavigation(route: string): void {
+    console.log(`Navigating to ${route}`);
+  }
 }
+
+
+

@@ -1,3 +1,8 @@
-<h1>{{ title }}</h1>
-<router-outlet></router-outlet>
+<nav>
+    <a routerLink="/data-input" (click)="debugNavigation('data-input')" routerLinkActive="active-link">Data Input</a>
+    <a routerLink="/gantt-chart" (click)="debugNavigation('gantt-chart')" routerLinkActive="active-link">View Chart</a>
+  </nav>
+  <router-outlet></router-outlet>
+  
+  
 

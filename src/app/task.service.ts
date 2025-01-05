@@ -10,10 +10,14 @@ export class TaskService {
 
   addTask(task: any): void {
     const tasks = this.tasksSubject.getValue();
+  
+    // Check for duplicate task names
     if (tasks.some(t => t.name === task.name)) {
       alert(`Task "${task.name}" already exists.`);
       return;
     }
+  
+    // Validate dependencies
     if (Array.isArray(task.dependencies)) {
       for (const dep of task.dependencies) {
         if (!tasks.some(t => t.name === dep)) {
@@ -26,6 +30,8 @@ export class TaskService {
         }
       }
     }
+  
+    // Normalize dates and add task
     task.startDate = this.normalizeDate(task.startDate);
     task.endDate = this.normalizeDate(task.endDate);
     if (!task.startDate || !task.endDate) {
@@ -34,6 +40,7 @@ export class TaskService {
     }
     this.tasksSubject.next([...tasks, task]);
   }
+  
 
   removeTask(name: string): void {
     const tasks = this.tasksSubject.getValue();
@@ -54,12 +61,12 @@ export class TaskService {
     return this.tasks$;
   }
 
-  private normalizeDate(dateVal: string | Date): string | null {
+  private normalizeDate(dateVal: string | Date): Date | null {
     if (dateVal instanceof Date) {
-      return isNaN(dateVal.getTime()) ? null : dateVal.toISOString();
+      return isNaN(dateVal.getTime()) ? null : dateVal;
     }
     const d = new Date(dateVal);
-    return isNaN(d.getTime()) ? null : d.toISOString();
+    return isNaN(d.getTime()) ? null : d;
   }
 }
 
